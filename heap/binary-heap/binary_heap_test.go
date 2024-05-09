@@ -1,6 +1,8 @@
 package binaryheap
 
 import (
+	"log"
+	"slices"
 	"testing"
 )
 
@@ -27,6 +29,10 @@ func TestNewBinaryHeapWithCapacity(t *testing.T) {
 	}
 	if bh.Cap() != 10 {
 		t.Errorf("Cap() = %d, want 10", bh.Cap())
+	}
+	bh.Clip()
+	if bh.Len() != 0 {
+		t.Errorf("Len() = %d, want 0", bh.Len())
 	}
 }
 
@@ -80,6 +86,59 @@ func TestBinaryHeapPush(t *testing.T) {
 		})
 	}
 
+}
+
+func TestBinaryHeapPeek(t *testing.T) {
+	bh := NewBinaryHeapWithCapacity[int](10)
+	x, ok := bh.Peek()
+	if ok || x != 0 {
+		t.Errorf("Peek() = (%v, %t), want (0, false)", x, ok)
+	}
+	bh.Push(17, 50, 32, 93, 8, 9, 69, 4, 26, 19)
+	x, ok = bh.Peek()
+	if !ok || x != 93 {
+		t.Errorf("Pop() = (%v, %t), want (%d, true)", x, ok, 93)
+	}
+	if bh.Len() != 10 {
+		t.Errorf("Len() = %d, want 10", bh.Len())
+	}
+	if bh.Cap() != 10 {
+		t.Errorf("Cap() = %d, want 10", bh.Cap())
+	}
+}
+
+func TestBinaryHeapRemove(t *testing.T) {
+	bh := NewBinaryHeapWithCapacity[int](10)
+	x, ok := bh.Pop()
+	if ok || x != 0 {
+		t.Errorf("Pop() = (%v, %t), want (0, false)", x, ok)
+	}
+	bh.Push(17, 50, 32, 93, 8, 9, 69, 4, 26, 19)
+	x, ok = bh.Pop()
+	if !ok || x != 93 {
+		t.Errorf("Pop() = (%v, %t), want (%d, true)", x, ok, 93)
+	}
+	if bh.Len() != 9 {
+		t.Errorf("Len() = %d, want 9", bh.Len())
+	}
+	if bh.Cap() != 10 {
+		t.Errorf("Cap() = %d, want 10", bh.Cap())
+	}
+}
+
+func TestBinaryHeapMultipleRemove(t *testing.T) {
+	elements := []int{17, 50, 32, 93, 8, 9, 69, 4, 26, 19}
+	bh := NewBinaryHeapWithCapacity[int](len(elements))
+	bh.Push(elements...)
+	slices.Sort(elements)
+	slices.Reverse(elements)
+	for _, v := range elements {
+		log.Println(v)
+		x, ok := bh.Pop()
+		if !ok || x != v {
+			t.Errorf("Pop() = (%v, %t), want (%d, true)", x, ok, v)
+		}
+	}
 }
 
 func BenchmarkBinaryHeapPush(b *testing.B) {
