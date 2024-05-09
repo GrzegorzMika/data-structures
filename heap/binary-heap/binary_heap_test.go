@@ -1,6 +1,7 @@
 package binaryheap
 
 import (
+	"fmt"
 	"log"
 	"slices"
 	"testing"
@@ -146,4 +147,17 @@ func BenchmarkBinaryHeapPush(b *testing.B) {
 	for i := range b.N {
 		bh.Push(i)
 	}
+}
+
+func ExampleBinaryHeap() {
+	bh := NewBinaryHeap[int]()
+	bh.Push(17, 50, 32, 93, 8, 9, 69, 4, 26, 19)
+	fmt.Println(bh.Peek())
+	v, ok := bh.Pop()
+	if ok {
+		fmt.Println(v)
+	}
+	// Output:
+	// 93
+	// 93
 }

@@ -1,3 +1,4 @@
+// Package binaryheap implements the generic binary heap.
 package binaryheap
 
 import (
