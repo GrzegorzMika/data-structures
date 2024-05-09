@@ -13,12 +13,6 @@ type BinaryHeap[T cmp.Ordered] struct {
 // NewBinaryHeap creates a new instance of BinaryHeap.
 // The binary heap is a complete binary tree where each node is bigger or equal to its children.
 // The elements are stored in an array, and the heap property is maintained with every new element added to the heap.
-//
-// Parameters:
-// - None
-//
-// Returns:
-// - A pointer to a new instance of BinaryHeap[T].
 func NewBinaryHeap[T cmp.Ordered]() *BinaryHeap[T] {
 	return &BinaryHeap[T]{
 		items: make([]T, 0),
@@ -27,12 +21,6 @@ func NewBinaryHeap[T cmp.Ordered]() *BinaryHeap[T] {
 
 // NewBinaryHeapWithCapacity creates a new instance of BinaryHeap with the specified capacity.
 // The capacity is the maximum number of elements that the binary heap can hold without reallocating its underlying slice.
-//
-// Parameters:
-// - capacity: An integer representing the initial capacity of the binary heap.
-//
-// Returns:
-// - A pointer to a new instance of BinaryHeap[T].
 func NewBinaryHeapWithCapacity[T cmp.Ordered](capacity int) *BinaryHeap[T] {
 	return &BinaryHeap[T]{
 		items: make([]T, 0, capacity),
@@ -79,26 +67,16 @@ func (bh *BinaryHeap[T]) Clip() {
 // The Push method takes a variadic parameter xs, which represents the elements to be added to the heap.
 //
 // The time complexity of adding each element is O(log n), where n is the number of elements in the heap.
-//
-// Parameters:
-// - xs: A variadic parameter of type T, representing the elements to be added to the heap.
 func (bh *BinaryHeap[T]) Push(xs ...T) {
 	for _, x := range xs {
 		bh.push(x)
 	}
 }
 
-// Peek returns the biggest element in the binary heap without removing it.
+// Peek returns the biggest element in the binary heap without removing it and true.
 // If the binary heap is empty, it returns a zero value of type T and false.
 //
 // The time complexity of this method is O(1).
-//
-// Parameters:
-// - None
-//
-// Returns:
-// - The biggest element in the binary heap of type T.
-// - A boolean value indicating whether the binary heap is empty or not.
 func (bh *BinaryHeap[T]) Peek() (T, bool) {
 	if bh.Len() == 0 {
 		return *new(T), false
@@ -110,13 +88,6 @@ func (bh *BinaryHeap[T]) Peek() (T, bool) {
 // If the binary heap is empty, it returns a zero value of type T and false.
 //
 // The time complexity of this method is O(log n), where n is the number of elements in the heap.
-//
-// Parameters:
-// - None
-//
-// Returns:
-// - The biggest element in the binary heap of type T.
-// - A boolean value indicating whether the binary heap is empty or not.
 func (bh *BinaryHeap[T]) Pop() (T, bool) {
 	if bh.Len() == 0 {
 		return *new(T), false
